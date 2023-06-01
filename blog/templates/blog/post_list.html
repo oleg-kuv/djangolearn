@@ -10,6 +10,12 @@
           <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4> <i>{{ post.published_date }}</i>
         </div>
         {% endfor %}
+
+        {% if user.is_authenticated %}
+        <div class="blog__item blog__item_add">
+          <h4><a href="/post/add_new">+ Новый пост</a></h4>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>

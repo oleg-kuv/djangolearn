@@ -12,6 +12,25 @@ h1,h2,h3,h4,h5,h5 {
   padding: 0;
 }
 
+[type=text], [type=button], [type=submit], textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  background: none;
+  padding: 5px;
+  margin: 0;
+}
+textarea {
+  border-left: 1px solid #aaa;
+}
+
+[type=button], [type=submit] {
+  border: 3px solid #818098;
+  background: #a3a2b9;
+  color: #fff;
+  padding: 5px 30px;
+  width:auto;
+}
 a { color:#6e6d86; text-decoration:none }
 a:visited {color:#a1a0bd}
 a:hover {text-decoration:underline}
@@ -28,7 +47,9 @@ p {}
   max-width: 900px;
   width: 100%;
 }
-  .block__header {}
+  .block__header {
+    padding-bottom: 20px;
+  }
   .block__content {}
 
   .block_wide {}
@@ -42,14 +63,15 @@ p {}
     padding: 5px;
     background: #6e6d86;
     color: #fff;
-    box-shadow: 0px 0px 10px -2px #000;
+    box-shadow: 0px 0px 25px -8px #000;
     position: sticky;
     top:0;
   }
   .block_header+.block {
     padding-top: 30px;
   }
-  .block_header .block__header {font-size: 2em;}
+  .block_header>:not(:last-child) {margin-right: 5px;}
+  .block_header .block__header {font-size: 2em; padding-bottom: unset;}
   .block_header .block__header a {color: inherit;}
   .block_header .block__header a:hover {}
   .block_header .block__content {
@@ -63,14 +85,17 @@ p {}
     margin-top: auto;
   }
   .block_bloglist {}
-  .block_bloglist .block__header {
-    padding-bottom: 10px;
-  }
+
+
+  .block_bloglist .block__header {}
 
 .blog {}
 .blog__list {}
 .blog__item {
   left: 10px;
+}
+.blog__text {
+  text-align: justify;
 }
 
 

@@ -4,8 +4,12 @@
     <div class="block__header"><h1>{{ post.title }}</h1></div>
     <div class="block__content">
         <div class="blog">
-            <div class="blog__text"> {{ post.text }} </div>
+            <div class="blog__text"> {{ post.text|linebreaksbr }} </div>
             <div class="blog__published-date"> {{ post.published_date }} </div>
+            {% if user.is_authenticated %}
+            <div class="blog__edit"> <a href="/post/{{ post.pk }}/edit/">Редактировать</a></h4> </div>
+            <div class="blog__add"> <a href="/post/add_new/">+ Новый пост</a></h4> </div>
+            {% endif %}
         </div>
     </div>
 </div>
