@@ -4,6 +4,14 @@
   </head>
   <body>
     <h1>Blog</h1>
-    <p>It works</p>
+    <h3>Posts:</h3>
+    {% for post in posts%}
+    <div>
+      <h4>{{ post.title }}</h4>
+      <i>{{ post.published_date }}</i>
+      <p>{{ post.text|linebreaksbr }}</p>
+
+    </div>
+    {% endfor %}
   </body>
 </html>
