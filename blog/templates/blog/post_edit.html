@@ -1,4 +1,8 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
 {% block content %}
 <div class="block block_blogpostedit">
     <div class="block__header"><h1>Новый пост</h1></div>

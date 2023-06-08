@@ -1,0 +1,22 @@
+.form {}
+.form>* {}
+.form>*:not(:last-child) {
+    padding-bottom: 20px;
+}
+
+.form__header {}
+.form__body {}
+.form__field {}
+.form__footer>*:not(:last-child) {
+    padding-bottom: 20px;
+}
+
+.form__footer {}
+.form__footer>* {}
+.form__field_submit {}
+.form__messages {}
+.form__errors {}
+.form__error {
+    color: #d80000;
+    font-weight: bold;
+}
