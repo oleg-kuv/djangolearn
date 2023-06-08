@@ -11,7 +11,7 @@
       <div class="blog__list">
         {% for post in posts%}
         <div class="blog__item">
-          <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4> <i>{{ post.published_date }}</i>
+          <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4> <i>{{ post.created_date }}</i>
         </div>
         {% endfor %}
 

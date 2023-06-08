@@ -73,10 +73,13 @@ p {}
     box-shadow: 0px 0px 25px -8px #000;
     position: sticky;
     top:0;
+    z-index: 1;
   }
+
   .block_header+.block {
     padding-top: 30px;
   }
+
   .block_header>:not(:last-child) {margin-right: 5px;}
   .block_header .block__header {font-size: 2em; padding-bottom: unset;}
   .block_header .block__header a {color: inherit;}
@@ -91,7 +94,6 @@ p {}
     color: #fff;
     margin-top: auto;
   }
+
   .block_bloglist {}
-
-
   .block_bloglist .block__header {}

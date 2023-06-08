@@ -1,8 +1,10 @@
 .blog {}
 .blog__list {}
+
 .blog__item {
   left: 10px;
 }
+
 .blog__text {
   text-align: justify;
 }
@@ -10,4 +12,15 @@
 
 .blog__item:not(:last-child) {
   padding-bottom: 10px;
+}
+
+.blog__tags {display: flex; flex-direction: row;}
+.blog__tag {
+  background: #bfbad1;
+  padding: 3px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.blog__tag:not(:last-child) {
+  margin-right: 5px;
 }
