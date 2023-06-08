@@ -1,4 +1,8 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
 {% block content %}
 <div class="block block_bloglist">
   <div class="block__header"><h1>Список статей:</h1></div>
@@ -7,7 +11,7 @@
       <div class="blog__list">
         {% for post in posts%}
         <div class="blog__item">
-          <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4> <i>{{ post.published_date }}</i>
+          <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4> <i>{{ post.created_date }}</i>
         </div>
         {% endfor %}
 

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form_authorisation.css' %}">
+{% endblock %}
+{% block content %}
+<div class="block block_authorisation">
+    <div class="block__header"><h1>Авторизация</h1></div>
+    <div class="block__content">
+        <form class="form form_authorisation" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="form__body">
+                <div class="form__field form__field_login">
+                    {{ form.username.label_tag }}{{ form.username }}
+                </div>
+                <div class="form__field form__field_pass">
+                    {{ form.password.label_tag }}{{ form.password }}
+                </div>
+            </div>
+            <div class="form__footer">
+                <div class="form__field form__field_submit">
+                    <button class="form__button" type="submit">Войти</button>
+                </div>
+                <div><a href="#">Восстановить пароль</a></div>
+                <div class="form__messages">
+                    {% if form.errors %}
+                        <div class="form__errors">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <div class="form__error">{{ error }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
