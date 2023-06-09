@@ -1,4 +1,7 @@
 .blog {}
+.blog>*:not(:last-child) {
+  padding-bottom: 10px;
+}
 .blog__list {}
 
 .blog__item {

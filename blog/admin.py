@@ -3,11 +3,11 @@ from .models import Tag, Post
 
 @admin.action(description="Активоровать")
 def make_active(modeladmin, request, queryset):
-    queryset.update(active = True)
+    queryset.update(active=True)
 
 @admin.action(description="Деактивировать")
 def make_deactive(modeladmin, request, queryset):
-    queryset.update(active = False)
+    queryset.update(active=False)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
