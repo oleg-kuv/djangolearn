@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
 {% block content %}
 <div class="block block_bloglist">
-  <div class="block__header"><h1>Список статей:</h1></div>
+  <div class="block__header">
+    <h1>Список статей:</h1>
+  </div>
   <div class="block__content">
     <div class="blog">
       <div class="blog__list">
         {% for post in posts%}
         <div class="blog__item">
-          <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4> <i>{{ post.created_date }}</i>
+          <h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
+          <div class="blog__item__meta">
+            <i>{{ post.created_date }}</i>
+            <div class="blog__tags">
+              {% for tag in post.tags.all %}
+              <div class="blog__tag"> <a href="/?tag={{ tag.id }}">{{ tag }}</a></div>
+              {% endfor %}
+            </div>
+          </div>
         </div>
         {% endfor %}
 
