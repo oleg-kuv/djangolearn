@@ -23,9 +23,9 @@ def post_detail(request, pk):
     """ Страница поста """
 
     template = 'blog/post_detail.html'
-    post = get_object_or_404(Post, pk=pk)
-    tags = post.tags.filter(active=True)
-    return render(request, template, {'post': post, 'tags': tags})
+    post_qs = get_object_or_404(Post, pk=pk)
+    tags_qs = post_qs.tags.filter(active=True)
+    return render(request, template, {'post': post_qs, 'tags': tags_qs})
 
 
 @login_required
@@ -35,9 +35,9 @@ def post_new(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
+            post_qs = form.save(commit=False)
+            post_qs.author = request.user
+            post_qs.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
@@ -48,14 +48,14 @@ def post_new(request):
 def post_edit(request, pk):
     """ Редактирование поста """
 
-    post = get_object_or_404(Post, pk=pk)
+    post_qs = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, instance=post_qs)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('post_detail', pk=post.pk)
+            post_qs = form.save(commit=False)
+            post_qs.author = request.user
+            post_qs.save()
+            return redirect('post_detail', pk=post_qs.pk)
     else:
-        form = PostForm(instance=post)
+        form = PostForm(instance=post_qs)
     return render(request, 'blog/post_edit.html', {'form': form})
