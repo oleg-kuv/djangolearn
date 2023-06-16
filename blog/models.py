@@ -12,7 +12,6 @@ class Tag(models.Model):
     )
     title = models.CharField('Название', max_length=200)
     description = models.TextField('Описание тега', null=True, blank=True)
-
     created_date = models.DateTimeField('Дата создания', auto_now_add=True)
     updated_date = models.DateTimeField('Дата изменения', auto_now=True)
     active = models.BooleanField('Активно', default=False)
@@ -21,7 +20,6 @@ class Tag(models.Model):
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
-    @classmethod
     def __str__(self):
         return self.title
 
@@ -45,6 +43,5 @@ class Post(models.Model):
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
 
-    @classmethod
     def __str__(self):
         return self.title

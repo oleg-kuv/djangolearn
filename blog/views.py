@@ -7,6 +7,7 @@ from .forms import PostForm
 def post_list(request):
     """ Список постов """
 
+    template = 'blog/post_list.html'
     filter_active = request.GET.get('active')
     filter_tag = request.GET.get('tag')
 
@@ -18,15 +19,16 @@ def post_list(request):
     if filter_tag is not None:
         posts = posts.filter(tags=filter_tag)
 
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    return render(request, template, {'posts': posts})
 
 
 def post_detail(request, pk):
     """ Страница поста """
 
+    template = 'blog/post_detail.html'
     post = get_object_or_404(Post, pk=pk)
     tags = post.tags.filter(active=True)
-    return render(request, 'blog/post_detail.html', {'post': post, 'tags': tags})
+    return render(request, template, {'post': post, 'tags': tags})
 
 
 @login_required
