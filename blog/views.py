@@ -2,10 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import PostForm
-# Create your views here.
 
 
 def post_list(request):
+    """ Список постов """
+
     filter_active = request.GET.get('active')
     filter_tag = request.GET.get('tag')
 
@@ -21,6 +22,8 @@ def post_list(request):
 
 
 def post_detail(request, pk):
+    """ Страница поста """
+
     post = get_object_or_404(Post, pk=pk)
     tags = post.tags.filter(active=True)
     return render(request, 'blog/post_detail.html', {'post': post, 'tags': tags})
@@ -28,6 +31,8 @@ def post_detail(request, pk):
 
 @login_required
 def post_new(request):
+    """ Создание поста """
+
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -42,6 +47,8 @@ def post_new(request):
 
 @login_required
 def post_edit(request, pk):
+    """ Редактирование поста """
+
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)

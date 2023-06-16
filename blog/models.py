@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+
 class Tag(models.Model):
     """ Tags of posts """
 
@@ -20,8 +21,10 @@ class Tag(models.Model):
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
+    @classmethod
     def __str__(self):
         return self.title
+
 
 class Post(models.Model):
     """ Post of blog """
@@ -42,5 +45,6 @@ class Post(models.Model):
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
 
+    @classmethod
     def __str__(self):
         return self.title

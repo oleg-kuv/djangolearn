@@ -1,0 +1,15 @@
+[flake8]
+exclude =
+    .git,
+    .gitignore,
+    *.pot,
+    *.py[co],
+    __pycache__,
+    myvenv,
+    .env,
+    migrations,
+    build,
+    static,
+    media,
+    .myvenv,
+ignore = E501, W503
