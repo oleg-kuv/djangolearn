@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 
+
 class Tag(models.Model):
     """ Tags of posts """
 
@@ -11,7 +12,6 @@ class Tag(models.Model):
     )
     title = models.CharField('Название', max_length=200)
     description = models.TextField('Описание тега', null=True, blank=True)
-
     created_date = models.DateTimeField('Дата создания', auto_now_add=True)
     updated_date = models.DateTimeField('Дата изменения', auto_now=True)
     active = models.BooleanField('Активно', default=False)
@@ -22,6 +22,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Post(models.Model):
     """ Post of blog """

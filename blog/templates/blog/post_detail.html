@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
 {% block content %}
 <div class="block block_blogdetail">
-    <div class="block__header"><h1>{{ post.title }}</h1></div>
+    <div class="block__header">
+        <h1>{{ post.title }}</h1>
+    </div>
     <div class="block__content">
         <div class="blog">
             <div class="blog__text"> {{ post.text|linebreaksbr }} </div>
             <div class="blog__tags">
                 {% for tag in tags %}
-                    <div class="blog__tag">{{ tag }}</div>
+                <div class="blog__tag"><a href="/?tag={{ tag.id }}">{{ tag }}</a></div>
                 {% endfor %}
             </div>
             <div class="blog__published-date"> {{ post.created_date }} </div>
             {% if user.is_authenticated %}
-            <div class="blog__edit"> <a href="/post/{{ post.pk }}/edit/">Редактировать</a></h4> </div>
-            <div class="blog__add"> <a href="/post/add_new/">+ Новый пост</a></h4> </div>
+            <div class="blog__edit"> <a href="/post/{{ post.pk }}/edit/">Редактировать</a></h4>
+            </div>
+            <div class="blog__add"> <a href="/post/add_new/">+ Новый пост</a></h4>
+            </div>
             {% endif %}
         </div>
     </div>
