@@ -8,18 +8,15 @@ def post_list(request):
     """ Список постов """
 
     template = 'blog/post_list.html'
-    filter_active = request.GET.get('active')
-    filter_tag = request.GET.get('tag')
+    filter_active = request.GET.get('active', True)
 
-    if filter_active is None:
-        filter_active = True
+    posts_qs = Post.objects.order_by(
+        'created_date').filter(active=filter_active)
 
-    posts = Post.objects.order_by('created_date').filter(active=filter_active)
+    if filter_tag := request.GET.get('tag'):
+        posts_qs = posts_qs.filter(tags=filter_tag)
 
-    if filter_tag is not None:
-        posts = posts.filter(tags=filter_tag)
-
-    return render(request, template, {'posts': posts})
+    return render(request, template, {'posts': posts_qs})
 
 
 def post_detail(request, pk):
