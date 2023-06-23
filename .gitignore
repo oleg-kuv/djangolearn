@@ -16,3 +16,4 @@ media
 myvenv
 
 .vscode
+*.code-workspace
