@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Post
 from .forms import PostForm
 
@@ -28,7 +28,7 @@ def post_detail(request, pk):
     return render(request, template, {'post': post_qs, 'tags': tags_qs})
 
 
-@login_required
+@permission_required('blog.add_post')
 def post_new(request):
     """ Создание поста """
 
@@ -38,17 +38,17 @@ def post_new(request):
             post_qs = form.save(commit=False)
             post_qs.author = request.user
             post_qs.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', pk=post_qs.pk)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-@login_required
+@permission_required('blog.change_post')
 def post_edit(request, pk):
     """ Редактирование поста """
 
-    post_qs = get_object_or_404(Post, pk=pk)
+    post_qs = get_object_or_404(klass=Post, pk=pk)
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post_qs)
         if form.is_valid():
