@@ -17,7 +17,7 @@
                 {% endfor %}
             </div>
             <div class="blog__published-date"> {{ post.created_date }} </div>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.username == post.author.username %}
             <div class="blog__edit"> <a href="/post/{{ post.pk }}/edit/">Редактировать</a></h4>
             </div>
             <div class="blog__add"> <a href="/post/add_new/">+ Новый пост</a></h4>
