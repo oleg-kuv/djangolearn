@@ -7,7 +7,13 @@ test_pass = 'a;sldkfj123'
 
 
 def create_author_group_helper() -> Group:
+
+    group_qs = Group.objects.filter(name='test_author')
+    if group_qs.exists():
+        return group_qs.first()
+
     group_author = Group.objects.create(name='test_author')
+
     post_ct_qs = ContentType.objects.get_for_model(Post)
     post_permissions = Permission.objects.filter(content_type=post_ct_qs)
 
@@ -131,3 +137,15 @@ class AccessTestCase(TestCase):
                           password=test_pass)
         response = self.client.get(f"/post/{new_post.id}/edit/")
         self.assertEqual(response.status_code, 200)
+
+    def test_other_author_edit(self):
+        # Попытка отредактировать чужой пост
+        author = create_author_user_helper()
+        other_author = create_author_user_helper('Ivan')
+        new_post = create_post_helper(author)
+
+        self.client.login(username=other_author.username,
+                          password=test_pass)
+
+        response = self.client.get(f"/post/{new_post.id}/edit/")
+        self.assertEqual(response.status_code, 403)
