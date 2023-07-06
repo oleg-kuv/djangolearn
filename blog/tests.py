@@ -6,7 +6,7 @@ from blog.models import Post
 test_pass = 'a;sldkfj123'
 
 
-def create_author_group_helper():
+def create_author_group_helper() -> Group:
     group_author = Group.objects.create(name='test_author')
     post_ct_qs = ContentType.objects.get_for_model(Post)
     post_permissions = Permission.objects.filter(content_type=post_ct_qs)
@@ -17,7 +17,7 @@ def create_author_group_helper():
     return group_author
 
 
-def create_author_user_helper(username="testAuthorUser"):
+def create_author_user_helper(username="testAuthorUser") -> Post:
     group_author = create_author_group_helper()
     user = User.objects.create_user(
         username, f"{username}@example.com", test_pass)
@@ -25,7 +25,7 @@ def create_author_user_helper(username="testAuthorUser"):
     return user
 
 
-def create_reader_user_helper():
+def create_reader_user_helper() -> User:
     user = User.objects.create_user(
         "testUser", "testuser@example.com", test_pass)
     return user
