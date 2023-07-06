@@ -17,7 +17,7 @@ def create_author_group_helper() -> Group:
     return group_author
 
 
-def create_author_user_helper(username="testAuthorUser") -> Post:
+def create_author_user_helper(username="testAuthorUser") -> User:
     group_author = create_author_group_helper()
     user = User.objects.create_user(
         username, f"{username}@example.com", test_pass)
@@ -35,7 +35,7 @@ def remove_test_user_helper(user: User):
     user.delete()
 
 
-def create_post_helper(author_user_object: User, title="Test post", active=True):
+def create_post_helper(author_user_object: User, title="Test post", active=True) -> Post:
     post = Post()
     post.title = title
     post.text = 'text'
