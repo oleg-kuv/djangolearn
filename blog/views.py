@@ -54,7 +54,7 @@ def post_edit(request, pk):
     template = 'blog/post_edit.html'
     post_qs = get_object_or_404(Post, pk=pk)
     if (request.user != post_qs.author):
-        return HttpResponseForbidden()
+        return render(request, 'blog/403.html', status=403, context={'message': "Вы не можете редактировать данную статью так как не являетесь ее автором"})
 
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post_qs)
