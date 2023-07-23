@@ -1,62 +1,8 @@
-from django.contrib.auth.models import User, Group, Permission
-from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
-from blog.models import Post
-
-test_pass = 'a;sldkfj123'
+from blog.tests.helpers import HelperFabricObjectsMixin
 
 
-def create_author_group_helper() -> Group:
-
-    group_qs = Group.objects.filter(name='test_author')
-    if group_qs.exists():
-        return group_qs.first()
-
-    group_author = Group.objects.create(name='test_author')
-
-    post_ct_qs = ContentType.objects.get_for_model(Post)
-    post_permissions = Permission.objects.filter(content_type=post_ct_qs)
-
-    for permission in post_permissions:
-        if permission.codename == 'add_post' or permission.codename == 'change_post':
-            group_author.permissions.add(permission)
-    return group_author
-
-
-def create_author_user_helper(username="testAuthorUser") -> User:
-    group_author = create_author_group_helper()
-    user = User.objects.create_user(
-        username, f"{username}@example.com", test_pass)
-    user.groups.add(group_author)
-    return user
-
-
-def create_reader_user_helper() -> User:
-    user = User.objects.create_user(
-        "testUser", "testuser@example.com", test_pass)
-    return user
-
-
-def remove_test_user_helper(user: User):
-    user.delete()
-
-
-def create_post_helper(author_user_object: User, title="Test post", active=True) -> Post:
-    post = Post()
-    post.title = title
-    post.text = 'text'
-    post.active = active
-    post.author = author_user_object
-    post.save()
-
-    return post
-
-
-def remove_new_post_helper(post: Post):
-    post.delete()
-
-
-class LoginTestCase(TestCase):
+class LoginTestCase(TestCase, HelperFabricObjectsMixin):
     # Вход с несуществующим логином
     def test_non_exists_login(self):
         login = self.client.login(
@@ -65,16 +11,16 @@ class LoginTestCase(TestCase):
 
     # Вход с существующим логином
     def test_login(self):
-        user = create_reader_user_helper()
+        user = self.create_reader_user()
 
         login = self.client.login(
             username=user.username,
-            password=test_pass
+            password=self.test_password
         )
         self.assertTrue(login)
 
 
-class AccessTestCase(TestCase):
+class AccessTestCase(TestCase, HelperFabricObjectsMixin):
     def test_index(self):
         # Доступность главной
         response = self.client.get('/')
@@ -88,8 +34,8 @@ class AccessTestCase(TestCase):
 
     def test_unauthorised_edit_post(self):
         # Отсутствие доступа неавторизованного к редактированию поста
-        author = create_author_user_helper()
-        new_post = create_post_helper(author)
+        author = self.create_author_user()
+        new_post = self.create_post(author)
 
         response = self.client.get(f"/post/{new_post.id}/edit/")
         self.assertEqual(response.status_code, 302)
@@ -98,22 +44,22 @@ class AccessTestCase(TestCase):
 
     def test_authorised_simple_user_create_post(self):
         # Отсутствие доступа простого авторизованного пользователя к созданию поста
-        user = create_reader_user_helper()
+        user = self.create_reader_user()
 
         self.client.login(username=user.username,
-                          password=test_pass)
+                          password=self.test_password)
         response = self.client.get('/post/add_new/')
         self.assertEqual(response.status_code, 302)
         self.assertEqual('/accounts/login/?next=/post/add_new/', response.url)
 
     def test_authorised_simple_user_edit_post(self):
         # Отсутствие доступа простого авторизованного пользователя к редактированию поста
-        user = create_reader_user_helper()
-        author = create_author_user_helper()
-        new_post = create_post_helper(author)
+        user = self.create_reader_user()
+        author = self.create_author_user()
+        new_post = self.create_post(author)
 
         self.client.login(username=user.username,
-                          password=test_pass)
+                          password=self.test_password)
         response = self.client.get(f"/post/{new_post.id}/edit/")
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
@@ -121,31 +67,31 @@ class AccessTestCase(TestCase):
 
     def test_authorised_author_create_post(self):
         # Наличие доступа автора к созданию поста
-        author = create_author_user_helper()
+        author = self.create_author_user()
 
         self.client.login(username=author.username,
-                          password=test_pass)
+                          password=self.test_password)
         response = self.client.get('/post/add_new/')
         self.assertEqual(response.status_code, 200)
 
     def test_authorised_author_edit_post(self):
         # Наличие доступа редактированию к созданию поста
-        author = create_author_user_helper()
-        new_post = create_post_helper(author)
+        author = self.create_author_user()
+        new_post = self.create_post(author)
 
         self.client.login(username=author.username,
-                          password=test_pass)
+                          password=self.test_password)
         response = self.client.get(f"/post/{new_post.id}/edit/")
         self.assertEqual(response.status_code, 200)
 
     def test_other_author_edit(self):
         # Попытка отредактировать чужой пост
-        author = create_author_user_helper()
-        other_author = create_author_user_helper('Ivan')
-        new_post = create_post_helper(author)
+        author = self.create_author_user()
+        other_author = self.create_author_user('Ivan')
+        new_post = self.create_post(author)
 
         self.client.login(username=other_author.username,
-                          password=test_pass)
+                          password=self.test_password)
 
         response = self.client.get(f"/post/{new_post.id}/edit/")
         self.assertEqual(response.status_code, 403)
