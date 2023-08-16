@@ -33,11 +33,11 @@ class Post(models.Model):
         verbose_name='Автор'
     )
     title = models.CharField('Название', max_length=200)
-    text = models.TextField('Содержание')
+    text = models.TextField('Содержание', blank=True)
     created_date = models.DateTimeField('Дата создания', auto_now_add=True)
     updated_date = models.DateTimeField('Дата изменения', auto_now=True)
     active = models.BooleanField('Активно', default=False)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True, verbose_name="Теги")
 
     class Meta:
         verbose_name = 'Пост'
